@@ -27,27 +27,27 @@ CREATE TABLE IF NOT EXISTS `bem_saude_db`.`pacientes` (
   `endereco` VARCHAR(45) NULL,
   `observacoes` TEXT NULL,
   `status` BIT NOT NULL,
+  `tipo_sanguineo` ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `bem_saude_db`.`profissional`
+-- Table `bem_saude_db`.`profissionais`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `bem_saude_db`.`profissional` (
+CREATE TABLE IF NOT EXISTS `bem_saude_db`.`profissionais` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
-  `especialidade` ENUM('Clinico geral', 'Cardiologia', 'Orotpedia', 'Dermatologia', 'Pediatria') NOT NULL,
+  `especialidade` ENUM('Clínico Geral', 'Cardiologia', 'Ortopedia', 'Dermatologia', 'Pediatria') NOT NULL,
   `registro` VARCHAR(9) NOT NULL,
-  `duracao` TIME NOT NULL,
-  `valor` DOUBLE NULL,
+  `duracao` TIME NULL,
+  `valor` DOUBLE NOT NULL,
   `atendimento_segunda` BIT NULL,
   `atendimento_terca` BIT NULL,
   `atendimento_quarta` BIT NULL,
   `atendimento_quinta` BIT NULL,
   `atendimento_sexta` BIT NULL,
   `atendimento_sabado` BIT NULL,
-  `tipo sanguinio` ENUM('A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-') NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -58,7 +58,6 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `bem_saude_db`.`recepcionistas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
-  `recepcionistascol` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -69,17 +68,17 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `bem_saude_db`.`consultas` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_paciente` INT NOT NULL,
-  `id_profissional` INT NOT NULL,
   `id_recepcionista` INT NOT NULL,
+  `id_profissional` INT NOT NULL,
   `status` ENUM('Agendada', 'Atrasada', 'Confirmada', 'Cancelada', 'Em Andamento', 'Finalizada') NOT NULL,
   `data` DATE NOT NULL,
   `horario_previsto` TIME NOT NULL,
-  `observaco` VARCHAR(45) NULL,
-  `horario_inicio` VARCHAR(45) NULL,
-  `horario_final` VARCHAR(45) NULL,
-  `anotacoes_consulta` VARCHAR(45) NULL,
+  `observacao` TIME NULL,
+  `horario_inicio` TIME NULL,
+  `horario_final` TIME NULL,
+  `anotacoes_consulta` TEXT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_consulta_paciente_idx` (`id_paciente` ASC) VISIBLE,
+  INDEX `id_paciente_idx` (`id_paciente` ASC) VISIBLE,
   INDEX `fk_consulta_recepcionista_idx` (`id_recepcionista` ASC) VISIBLE,
   INDEX `fk_consulta_profissional_idx` (`id_profissional` ASC) VISIBLE,
   CONSTRAINT `fk_consulta_paciente`
@@ -94,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `bem_saude_db`.`consultas` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_consulta_profissional`
     FOREIGN KEY (`id_profissional`)
-    REFERENCES `bem_saude_db`.`profissional` (`id`)
+    REFERENCES `bem_saude_db`.`profissionais` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
