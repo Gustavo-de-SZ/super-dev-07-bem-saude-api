@@ -39,28 +39,23 @@ class RecepcionistaCriarRequest(BaseModel):
                 {
                 "nome": "Mario dos Santos",
                 "status": "ATIVO"
-                }
-            ]  
+            }
+            ]
         }
     }
-    
+
+
 
 class RecepcionistaAlterarRequest(BaseModel):
     """
-    Schema para alterar de recepcionista
+    Schema para alteração de recepcionista
 
     Nome é obrigatório
-  
 
     Validações:
     - nome: mínimo 3 caracteres, máximo 45 caracteres
     """
-    id: UUID = Field(
-        ...,
-        description="Identificador unico de recepcionista",
-        examples=["019c445a-d6d3-7353-a9cf-66626a819a4a"]
-        
-    )
+
     nome: str = Field(
         ...,
         min_length=3,
@@ -73,11 +68,10 @@ class RecepcionistaAlterarRequest(BaseModel):
             "examples": [
                 {
                 "nome": "Mario dos Santos"
-                }
-            ]  
+            }
+            ]
         }
     }
-
 
 
 
@@ -89,10 +83,10 @@ class RecepcionistaResponse(BaseModel):
     """
     id: UUID = Field(
         ...,
-        description="Identificador unico de recepcionista",
-        examples=["019c445a-d6d3-7353-a9cf-66626a819a4a"]
-        
-    )
+        description="Indentificador único do recepcionista (UUID v7)",
+        examples=["019c445a-b822-7f8a-8a82-49ec6c52fd50"]
+    ) #UUID v7 generator
+
     nome: str = Field(
         ...,
         description="Nome completo do recepcionista",
@@ -118,10 +112,12 @@ class RecepcionistaResponse(BaseModel):
 
     model_config = {
         "json_schema_extra": {
-            "examples": [{
+            "examples": [
+                {
                 "nome": "Mario dos Santos",
                 "status": "ATIVO"
-            }]
+            }
+            ]
         }
     }
 
